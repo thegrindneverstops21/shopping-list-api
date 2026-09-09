@@ -1,4 +1,9 @@
-import type { Item, CreateItemInput, UpdateItemInput } from "../models/items";
+import items = require("../models/items");
+import ApiError = require("../utils/ApiError");
+
+type Item = items.Item;
+type CreateItemInput = items.CreateItemInput;
+type UpdateItemInput = items.UpdateItemInput;
 
 function validateCreateItem(body: any): CreateItemInput {
     if (typeof body !== "object" || body === null) {

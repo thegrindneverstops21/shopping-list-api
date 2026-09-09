@@ -1,4 +1,5 @@
 import nodeHttp = require("node:http");
+import ApiError = require("./ApiError");
 
 function parseJsonBody<T>(req: nodeHttp.IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
