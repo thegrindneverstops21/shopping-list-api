@@ -1,10 +1,12 @@
 {
   "name": "shopping-list-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Shopping List REST API built with Node.js, TypeScript",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'tsx' src/index.ts"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
     "typescript": "^7.0.2"
   },
   "devDependencies": {
+    "ts-node-dev": "^2.0.0",
     "nodemon": "^3.1.14"
   }
 }
