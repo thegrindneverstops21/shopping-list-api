@@ -26,3 +26,5 @@ function parseJsonBody<T>(req: nodeHttp.IncomingMessage): Promise<T> {
         req.on("error", (err) => reject(err));
     });
 }
+
+module.exports = { parseJsonBody };
