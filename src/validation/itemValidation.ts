@@ -1,4 +1,5 @@
 import items = require("../models/items");
+import router = require("../router");
 import ApiError = require("../utils/ApiError");
 
 type Item = items.Item;
@@ -58,6 +59,7 @@ function validateUpdateItem(body: any): UpdateItemInput {
     }
 
     return update;
+    
 }
 
 export = { validateCreateItem, validateUpdateItem };
