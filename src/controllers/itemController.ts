@@ -51,4 +51,14 @@ async function handleUpdateItem(
   response.createSuccessResponse(res, 200, updated);
 }
 
-export = {handleGetAllItems, handleGetItemById, handleCreateItem, handleUpdateItem};
+async function handleDeleteItem(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  id: string,
+): Promise<void> {
+  const deleted = itemStore.deleteItem(id);
+  if (!deleted) throw new ApiError(404, "Item with " + "${id}" + "not found");
+  response.sendNoContent(res);
+}
+
+export = {handleGetAllItems, handleGetItemById, handleCreateItem, handleUpdateItem, handleDeleteItem};
