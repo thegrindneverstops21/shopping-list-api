@@ -48,4 +48,4 @@ function deleteItem(id: string): boolean {
     return true;
 }
 
-module.exports = { getAllItems, getItemById, createItem, updateItem, deleteItem };
+export = { getAllItems, getItemById, createItem, updateItem, deleteItem };

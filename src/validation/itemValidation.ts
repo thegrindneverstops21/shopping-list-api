@@ -60,4 +60,4 @@ function validateUpdateItem(body: any): UpdateItemInput {
     return update;
 }
 
-module.exports = { validateCreateItem, validateUpdateItem };
+export = { validateCreateItem, validateUpdateItem };

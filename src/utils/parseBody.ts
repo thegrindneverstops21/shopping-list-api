@@ -28,4 +28,4 @@ function parseJsonBody<T>(req: nodeHttp.IncomingMessage): Promise<T> {
     });
 }
 
-module.exports = { parseJsonBody };
+export = { parseJsonBody };
