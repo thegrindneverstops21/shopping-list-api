@@ -1,5 +1,4 @@
 import items = require("../models/items");
-import router = require("../router");
 import ApiError = require("../utils/ApiError");
 
 type Item = items.Item;
@@ -10,7 +9,7 @@ function validateCreateItem(body: any): CreateItemInput {
     if (typeof body !== "object" || body === null) {
         throw new ApiError(400, "Invalid request body");
     }
-    if (typeof body.name !== "string" || body.name.trim() === 0) {
+    if (typeof body.name !== "string" || body.name.trim().length === 0) {
         throw new ApiError(400, "Invalid or missing 'name' field");
     }
     if ( body.quantity !== undefined && (typeof body.quantity !== "number" || body.quantity < 0) ) {
@@ -35,7 +34,7 @@ function validateUpdateItem(body: any): UpdateItemInput {
     const update: UpdateItemInput = {};
 
     if(body.name !== undefined) {
-        if(typeof body.name !== "string" || body.name.trim() === 0) {
+        if(typeof body.name !== "string" || body.name.trim().length === 0) {
             throw new ApiError(400, "Invalid 'name' field");
         }
         update.name = body.name.trim();

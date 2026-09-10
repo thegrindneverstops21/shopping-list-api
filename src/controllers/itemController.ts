@@ -5,8 +5,6 @@ import itemStore = require("../store/itemStore");
 import ApiError = require("../utils/ApiError");
 import parseBody = require("../utils/parseBody");
 import itemValidation = require("../validation/itemValidation");
-import parseJsonBody = require("../utils/parseBody");
-import validateUpdateItem = require("../validation/itemValidation");
 
 async function handleGetAllItems(
   req: http.IncomingMessage,
@@ -25,7 +23,7 @@ async function handleGetItemById(
   id: string,
 ): Promise<void> {
   const item = await (itemStore as any).getItemById(id);
-  if (!item) throw new ApiError(404, "Item with id " + "${id}" + " not found");
+  if (!item) throw new ApiError(404, `Item with id ${id} not found`);
   response.createSuccessResponse(res, 200, item);
 }
 
@@ -47,7 +45,7 @@ async function handleUpdateItem(
   const body = await parseBody.parseJsonBody<any>(req);
   const input = itemValidation.validateUpdateItem(body);
   const updated = itemStore.updateItem(id, input);
-  if (!updated) throw new ApiError(404, "Item with " + "${id}" + "not found");
+  if (!updated) throw new ApiError(404, `Item with id ${id} not found`);
   response.createSuccessResponse(res, 200, updated);
 }
 
@@ -57,7 +55,7 @@ async function handleDeleteItem(
   id: string,
 ): Promise<void> {
   const deleted = itemStore.deleteItem(id);
-  if (!deleted) throw new ApiError(404, "Item with " + "${id}" + "not found");
+  if (!deleted) throw new ApiError(404, `Item with id ${id} not found`);
   response.sendNoContent(res);
 }
 
