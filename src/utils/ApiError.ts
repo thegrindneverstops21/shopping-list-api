@@ -1,4 +1,6 @@
- class ApiError extends Error {
+
+// It lets the app return useful HTTP status codes like 400, 404, or 500.
+class ApiError extends Error {
   statusCode: number;
 
   constructor(statusCode: number, message: string) {
