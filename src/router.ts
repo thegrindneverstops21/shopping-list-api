@@ -14,10 +14,12 @@ async function router(
   const segments = pathname.split("/").filter(Boolean);
 
   try {
+    // Only /items routes are supported in this app.
     if (segments[0] !== "items") {
       throw new ApiError(404, "Route not found");
     }
 
+    // /items with no extra segment handles list/create actions.
     if (segments?.length === 1) {
       if (method === "GET")
         return await itemController.handleGetAllItems(req, res);
@@ -26,6 +28,7 @@ async function router(
       throw new ApiError(405, `Method ${method} not allowed on /items/:id`);
     }
 
+    // /items/:id handles reading, updating, and deleting one item.
     if (segments?.length === 2) {
       const id = segments[1];
       if (!id) throw new ApiError(404, "Route not found");
