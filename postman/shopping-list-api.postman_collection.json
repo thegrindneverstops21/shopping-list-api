@@ -30,6 +30,17 @@
           "name": "Create item",
           "event": [
             {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get('itemId')) {",
+                  "  pm.collectionVariables.set('itemId', '');",
+                  "}"
+                ]
+              }
+            },
+            {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
