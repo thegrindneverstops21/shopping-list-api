@@ -1,18 +1,21 @@
 const { randomUUID } = require("crypto");
 import type { Item, CreateItemInput, UpdateItemInput } from "../models/items";
 
-
+// data is stored in this array while the server is running.
 let items: Item[] = [];
 
 function getAllItems(): Item[] {
-    return items;   
+    // Return the full list of shopping items.
+    return items;
 }
 
 function getItemById(id: string): Item | undefined {
+    // Search the list for one item whose id matches the route parameter.
     return items.find((item) => item.id === id);
 }
 
 function createItem(input: CreateItemInput): Item {
+    // Create a new shopping item with a unique id and timestamps.
     const now = new Date();
     const newItem: Item = {
         id: randomUUID(),
@@ -27,6 +30,7 @@ function createItem(input: CreateItemInput): Item {
 }
 
 function updateItem(id: string, input: UpdateItemInput): Item | undefined {
+    // Find the item first. If it does not exist, return undefined.
     const item = getItemById(id);
     if (!item) {
         return undefined;
@@ -40,6 +44,7 @@ function updateItem(id: string, input: UpdateItemInput): Item | undefined {
 }
 
 function deleteItem(id: string): boolean {
+    // Remove the item from the array if present.
     const index = items.findIndex((item) => item.id === id);
     if (index === -1) {
         return false;
