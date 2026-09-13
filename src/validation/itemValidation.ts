@@ -1,11 +1,14 @@
 import items = require("../models/items");
 import ApiError = require("../utils/ApiError");
 
+// If the payload looks wrong, it throws a friendly API error instead of letting bad data through.
+
 type Item = items.Item;
 type CreateItemInput = items.CreateItemInput;
 type UpdateItemInput = items.UpdateItemInput;
 
 function validateCreateItem(body: any): CreateItemInput {
+    // Creating a new item requires a valid object with the expected fields.
     if (typeof body !== "object" || body === null) {
         throw new ApiError(400, "Invalid request body");
     }
@@ -18,7 +21,7 @@ function validateCreateItem(body: any): CreateItemInput {
     if(body.purchased !== undefined && typeof body.purchased !== "boolean") {
         throw new ApiError(400, "Invalid or missing 'purchased' field");
     }
-    
+
     return {
         name: body.name.trim(),
         quantity: body.quantity,
@@ -27,6 +30,7 @@ function validateCreateItem(body: any): CreateItemInput {
 }
 
 function validateUpdateItem(body: any): UpdateItemInput {
+    // Partial updates are allowed, but each provided field must still be valid.
     if(typeof body !== "object" || body === null) {
         throw new ApiError(400, "Invalid request body");
     }
@@ -58,7 +62,7 @@ function validateUpdateItem(body: any): UpdateItemInput {
     }
 
     return update;
-    
+
 }
 
 export = { validateCreateItem, validateUpdateItem };
