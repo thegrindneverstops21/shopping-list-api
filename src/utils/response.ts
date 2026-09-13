@@ -1,5 +1,6 @@
 import { type ServerResponse } from 'http';
 
+// These helpers format API responses in a consistent JSON structure.
 interface SuccessResponse<T> {
     success: true;
     data: T;
@@ -29,6 +30,7 @@ function createErrorResponse(res: ServerResponse, statusCode: number, message: s
 }
 
 function sendNoContent(res: ServerResponse): void {
+    // 204 means the request was successful but there is no response body.
     res.writeHead(204);
     res.end();
 }
