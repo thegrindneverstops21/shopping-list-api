@@ -1,95 +1,134 @@
 # Shopping List API
 
-A TypeScript Node.js HTTP API for managing an in-memory shopping list.
+A REST API for managing a shopping list. Built with Node.js, TypeScript, and the built-in `http` module — no frameworks.
 
-## Run
+## Features
 
-```powershell
-npm install
-npm run dev
-```
+- Add items to a shopping list
+- View all items or a single item by id
+- Update item name, quantity, or purchased status
+- Delete items
+- Consistent JSON response shape with proper status codes
 
-The server listens on `http://localhost:3000` by default. Set `PORT` to use another port.
+## Tech Stack
 
-For a production-style run:
+- Node.js
+- TypeScript
+- In-memory storage (array)
 
-```powershell
-npm run build
-npm start
-```
+## Getting Started
 
-## Response format
+Install dependencies:
 
-Successful responses use:
+    npm install
 
-```json
-{
-  "success": true,
-  "data": {}
-}
-```
+Run in development mode:
 
-Errors use:
+    npm run dev
 
-```json
-{
-  "success": false,
-  "error": {
-    "message": "..."
-  }
-}
-```
+Build and run in production:
 
-## Endpoints
+    npm run build
+    npm start
 
-| Method | Path | Description | Success |
-| --- | --- | --- | --- |
-| `GET` | `/items` | Return all items | `200` |
-| `POST` | `/items` | Create an item | `201` |
-| `GET` | `/items/:id` | Return one item | `200` |
-| `PUT` | `/items/:id` | Update one or more fields | `200` |
-| `DELETE` | `/items/:id` | Delete an item | `204` |
+The server runs on port 3000 by default. Set a `PORT` environment variable to change it.
 
-### Create an item
+## API Endpoints
 
-`POST /items`
+### 1. Add an item — `POST /items`
 
-```json
-{
-  "name": "Milk",
-  "quantity": 2,
-  "purchased": false
-}
-```
+Body:
 
-Only `name` is required. `quantity` defaults to `1` and `purchased` defaults to `false`.
+    { "name": "Milk", "quantity": 2 }
 
-### Update an item
+`quantity` and `purchased` are optional, defaulting to `1` and `false`.
 
-`PUT /items/:id`
+**Postman screenshot:**
 
-Send one or more of these fields:
+<!-- SCREENSHOT: POST /items - request body + 201 response -->
+<img width="1920" height="1013" alt="image" src="https://github.com/user-attachments/assets/f55b5a58-6b32-42d2-9dd2-7605e261aba4" />
 
-```json
-{
-  "quantity": 2,
-  "purchased": true
-}
-```
 
-## Validation and errors
+---
 
-- `400` for invalid JSON, missing or invalid fields, or an empty update.
-- `404` when an item or route does not exist.
-- `405` when a route does not support the requested method.
-- `204` when an item is deleted successfully.
+### 2. Get all items — `GET /items`
 
-## Postman
+**Postman screenshot:**
 
-Import [`postman/shopping-list-api.postman_collection.json`](postman/shopping-list-api.postman_collection.json) into Postman. Run `Create item` first; its test script stores the returned ID in the collection variable `itemId`, which the detail, update, and delete requests use.
+<!-- SCREENSHOT: GET /items - 200 response with array -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/68440ba4-7032-44ac-a000-62d2165189e3" />
 
-The collection includes the CRUD flow plus validation and not-found checks.
 
-## Notes
+---
 
-Items are stored in memory, so they are cleared whenever the server restarts.
+### 3. Get a single item — `GET /items/:id`
+
+**Postman screenshot:**
+
+<!-- SCREENSHOT: GET /items/:id - 200 response with single item -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a535b04f-8516-43e8-a87b-a3a5d04a5fe2" />
+
+
+---
+
+### 4. Update an item — `PUT /items/:id`
+
+Body (any combination of fields):
+
+    { "quantity": 1, "purchased": true }
+
+**Postman screenshot:**
+
+<!-- SCREENSHOT: PUT /items/:id - request body + 200 response -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/99d21c29-e9cb-4586-b0ef-44c545f7ca94" />
+
+
+---
+
+### 5. Delete an item — `DELETE /items/:id`
+
+Returns `204 No Content` on success.
+
+**Postman screenshot:**
+
+<!-- SCREENSHOT: DELETE /items/:id - 204 response -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/56880b2f-5520-468a-a53e-a8c6903fc856" />
+
+
+---
+
+### 6. Error handling examples
+
+**Missing required field (400):**
+
+<!-- SCREENSHOT: POST /items with missing name - 400 response -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4d9f1cb7-e647-4108-80e4-5e323ace9086" />
+
+
+**Item not found (404):**
+
+<!-- SCREENSHOT: GET /items/:id with bad id - 404 response -->
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f70c6716-ff6c-4b44-a9a4-000e04f6c5f0" />
+
+
+## Response Shape
+
+Success:
+
+    { "success": true, "data": {...} }
+
+Error:
+
+    { "success": false, "error": { "message": "..." } }
+
+## Status Codes
+
+| Code | Meaning |
+|------|---------|
+| 200  | Successful GET or PUT |
+| 201  | Successful POST |
+| 204  | Successful DELETE |
+| 400  | Validation error |
+| 404  | Item or route not found |
+| 405  | Method not allowed on a known route |
+| 500  | Unexpected server error |
